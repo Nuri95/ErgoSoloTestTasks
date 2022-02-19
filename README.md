@@ -53,10 +53,10 @@ saves [ id, user_id, course_id, lesson_no, exercise_no, data ]
 
 Формат выходных данных:
 
-{
-	'USD': Decimal(59.51),
-    'EUR': Decimal(63.45)
-}
+{ <br>
+	'USD': Decimal(59.51), <br>
+    'EUR': Decimal(63.45) <br>
+} <br>
 
 
 
@@ -65,14 +65,14 @@ saves [ id, user_id, course_id, lesson_no, exercise_no, data ]
 
 Имеется csv-файл вида (данные не упорядочены):
 
-email,name
-test1@mail.ru,username1
-test2@gmail.com,username2
-test3@gmail.com,username3
-test4@rambler.ru,username4
-test5@ya.ru,username5
+email,name <br>
+test1@mail.ru,username1  <br>
+test2@gmail.com,username2 <br>
+test3@gmail.com,username3 <br>
+test4@rambler.ru,username4 <br>
+test5@ya.ru,username5 <br>
 ...
-testN@yahoo.com,usernameN
+testN@yahoo.com,usernameN <br>
 
 Используя данные из csv-файла необходимо создать список чанков, в которых будут содержаться группы кортежей вида (email, username) с условием, что в каждом чанке почтовые домены не должны повторяться (в каждом чанке должно аккумулироваться максимальное число email'ов с уникальными доменами).
 
