@@ -9,18 +9,20 @@ class NoExchangeRatesError(Exception):
 
 
 class CbCurrencyRates:
-    def __init__(self):
+    def __init__(self, cache):
+        self.cache = cache
         self.base_url = 'https://www.cbr.ru/scripts/XML_daily.asp'
-        self.exchange_data = self._get_current_exchange_rates_data()
 
     def _get_current_exchange_rates_data(self):
         return requests.request('GET', self.base_url).content
 
-    def _get_exchange_rate_against_ruble(self, to_currency):
-        rate = None
-        encoding = re.search(b'encoding="(.*?)"', self.exchange_data).group(1).decode()
+    def get_exchange_rate_against_ruble(self, to_currency):
+        exchange_data = self._get_current_exchange_rates_data()
 
-        records = ElementTree.fromstringlist(self.exchange_data.decode(encoding))
+        rate = None
+        encoding = re.search(b'encoding="(.*?)"', exchange_data).group(1).decode()
+
+        records = ElementTree.fromstringlist(exchange_data.decode(encoding))
         for record in records:
             if record.find('CharCode').text == to_currency:
                 rate = record.find('Value').text.replace(',', '.')
@@ -29,8 +31,11 @@ class CbCurrencyRates:
         if not rate:
             raise NoExchangeRatesError
 
-        return float(rate)
+        return round(float(rate), 4)
 
     def get_currency_rate(self, to_currency):
-        ruble_course = self._get_exchange_rate_against_ruble(to_currency)
-        return round(ruble_course, 4)
+        return self.cache.get_currency_rate(
+            self.get_exchange_rate_against_ruble,
+            to_currency
+        )
+
