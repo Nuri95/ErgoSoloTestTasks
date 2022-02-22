@@ -1,0 +1,3 @@
+EUR = 'EUR'
+USD = 'USD'
+CURRENCIES = {USD, EUR}
