@@ -6,27 +6,23 @@ __all__ = (
 def merge(file_with_strings, file_with_numbers, count_lines_f1, count_lines_f2):
     if count_lines_f1 >= count_lines_f2:
         for string in file_with_strings:
-            line_with_number = None
-            for number in file_with_numbers:
-                if number != '\n':
-                    line_with_number = number.replace('\n', '')
-                break
+            number = file_with_numbers.readline().replace('\n', '')
+            number = int(number) if number else None
 
-            if string == '\n':
+            string = string.replace('\n', '')
+            if not string:
                 continue
 
-            yield string.replace('\n', ''), line_with_number
+            yield string, number
 
     else:
-        for line_with_number in file_with_numbers:
-            line_with_string = None
-            for string in file_with_strings:
-                if string != '\n':
-                    line_with_string = string.replace('\n', '')
-                break
+        for number in file_with_numbers:
+            number = number.replace('\n', '')
+            number = int(number) if number else None
 
-            if line_with_string is None or line_with_string == '\n':
+            string = file_with_strings.readline().replace('\n', '')
+            if not string:
                 continue
 
-            yield line_with_string, line_with_number
+            yield string, number
 
